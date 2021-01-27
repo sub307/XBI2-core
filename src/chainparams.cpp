@@ -327,9 +327,9 @@ const size_t nGenesisOutputsTestnet = sizeof(genesisOutputsTestnet) / sizeof(gen
 
 //! dmntestnet funds
 const std::pair<const char*, CAmount> dmnTestGenesisOutputs[] = {
-	std::make_pair("fd99aed40ef80db16acb90c4617582bbcddf7f73", 400000 * COIN), //! GgxqUjhKuYwTuugeN2zF1fztQnY6Mief5i
-	std::make_pair("80b33840c77cf03e19cd7bd4206d8bb04c556d43", 400000 * COIN), //! GVaRc61UiqAWiBK47F2dgr9h9cucvV9KYb
-	std::make_pair("62ba64fd6003655bdf0d9168730fb80f2fd85113", 400000 * COIN), //! GSqwvqqUcroms1hSMwqF6YPU8B9DiquDVa
+	std::make_pair("efca7b9a3707c61aa658c7a2fcd2e302e17f2955", 400000 * COIN), 
+	std::make_pair("45271c3a5758ee59f45d8efcab5cf663fdfa209e", 400000 * COIN), 
+	std::make_pair("a11569f8eb2810fb268d49273ab983e56a40a902", 400000 * COIN), 
 	std::make_pair("62c4255eed9f472c4a07a038df912022cac960e1", 400000 * COIN), //! GSr9cPTscMXre9V9kHJCwtTfK5D4t7Vrh6
 	std::make_pair("28cf6c5d8fa0af8e25a7fcea3e57374cfbf5f3b4", 400000 * COIN), //! GMZhvpkTxAiE6A11JgRidsRjeiFCF2MphD
 	std::make_pair("a552b822a109cd9216e77c0225db92038abc5645", 400000 * COIN), //! GYv51DSnyoZDkcP1EWVES92qYbNbGpWiY7
@@ -339,7 +339,7 @@ const size_t nDmnTestGenesisOutputs = sizeof(dmnTestGenesisOutputs) / sizeof(dmn
 //! dmntestnet genesis
 static CBlock CreateGenesisBlockDMNTestNet(uint32_t nTime, uint32_t nNonce, uint32_t nBits)
 {
-    const char *pszTimestamp = "BTC 000000000000000000000000000000000000000000000000000000000000000f"; //! chucknorris hash
+    const char *pszTimestamp = "The Financial Times - Google threatens to shut search engine in Australia over news row";
 
     CMutableTransaction txNew;
     txNew.nVersion = GHOST_TXN_VERSION;
@@ -1047,12 +1047,12 @@ public:
 
         consensus.powLimit = uint256S("07ffff0000000000000000000000000000000000000000000000000000000000");
 
-        consensus.nPowTargetTimespan = 14 * 24 * 60 * 60; // two weeks
+        consensus.nPowTargetTimespan = 1 * 24 * 60 * 60; // one day
         consensus.nPowTargetSpacing = 10 * 60;
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1916; // 95% of 2016
-        consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
+        consensus.nMinerConfirmationWindow = 24 * 6; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
@@ -1084,7 +1084,7 @@ public:
         pchMessageStart[1] = 0xe0;
         pchMessageStart[2] = 0xe0;
         pchMessageStart[3] = 0xe7;
-        nDefaultPort = 8193;
+        nDefaultPort = 12828;
         nBIP44IDLegacy = 0x8000002C;
         nBIP44IDCurrent = 0x80000213;
         nModifierInterval = 10 * 60;    // 10 minutes
@@ -1105,10 +1105,13 @@ public:
         m_assumed_blockchain_size = 1;
         m_assumed_chain_state_size = 1;
 
-        uint32_t nTime{1598960150};
-        uint32_t nNonce{10};
+        uint32_t nTime{1611487079};
+        uint32_t nNonce{0};
         genesis = CreateGenesisBlockDMNTestNet(nTime, nNonce, 0x2007ffff);
         consensus.hashGenesisBlock = genesis.GetHash();
+		assert(consensus.hashGenesisBlock == uint256S("0x078775439b31470af344ca6c55e0c597f1e81ba918bea42a4d09b2f5e0d50678"));
+        assert(genesis.hashMerkleRoot == uint256S("0x85cc8cecbba357ba7774e5a6856fc35573d0d7adf79fc8db96548fe5d08e9ac9"));
+        assert(genesis.hashWitnessMerkleRoot == uint256S("0x3eee23066b91370f2d938e1f489d6566523510d5c9b7d7db415b0578e9d6745b"));
 
         base58Prefixes[PUBKEY_ADDRESS]     = {0x26}; // G
         base58Prefixes[SCRIPT_ADDRESS]     = {0x61}; // g
