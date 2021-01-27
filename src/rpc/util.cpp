@@ -81,6 +81,15 @@ CAmount AmountFromValue(const UniValue& value)
     return amount;
 }
 
+int32_t ParseInt32V(const UniValue& v, const std::string &strName)
+{
+    std::string strNum = v.getValStr();
+    int32_t num;
+    if (!ParseInt32(strNum, &num))
+        throw JSONRPCError(RPC_INVALID_PARAMETER, strName+" must be a 32bit integer (not '"+strNum+"')");
+    return num;
+}
+
 uint256 ParseHashV(const UniValue& v, std::string strName)
 {
     std::string strHex(v.get_str());
