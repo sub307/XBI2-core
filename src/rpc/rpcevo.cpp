@@ -241,7 +241,7 @@ static void SignSpecialTxPayloadByHash(const CMutableTransaction& tx, SpecialTxP
     payload.sig = key.Sign(hash);
 }
 
-static std::string SignAndSendSpecialTx(const CMutableTransaction& tx)
+static std::string SignAndSendSpecialTx(const CMutableTransaction& tx, const JSONRPCRequest& request)
 {
     {
     LOCK(cs_main);
@@ -255,7 +255,7 @@ static std::string SignAndSendSpecialTx(const CMutableTransaction& tx)
     CDataStream ds(SER_NETWORK, PROTOCOL_VERSION);
     ds << tx;
 
-    JSONRPCRequest signRequest;
+    JSONRPCRequest signRequest = request;
     signRequest.params.setArray();
     signRequest.params.push_back(HexStr(ds.begin(), ds.end()));
     UniValue signResult = signrawtransactionwithwallet(signRequest);
@@ -408,7 +408,7 @@ UniValue protx_register(const JSONRPCRequest& request)
         paramIdx++;
     } else {
         uint256 collateralHash = ParseHashV(request.params[paramIdx], "collateralHash");
-        int32_t collateralIndex = request.params[paramIdx + 1].get_int();
+        int32_t collateralIndex = ParseInt32V(request.params[paramIdx + 1], "collateralIndex");
         if (collateralHash.IsNull() || collateralIndex < 0) {
             throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, strprintf("invalid hash or index: %s-%d", collateralHash.ToString(), collateralIndex));
         }
@@ -480,7 +480,7 @@ UniValue protx_register(const JSONRPCRequest& request)
         ptx.collateralOutpoint.n = collateralIndex;
 
         SetTxPayload(tx, ptx);
-        return SignAndSendSpecialTx(tx);
+        return SignAndSendSpecialTx(tx, request);
     } else {
         // referencing external collateral
 
@@ -516,7 +516,7 @@ UniValue protx_register(const JSONRPCRequest& request)
             }
             SignSpecialTxPayloadByString(tx, ptx, key);
             SetTxPayload(tx, ptx);
-            return SignAndSendSpecialTx(tx);
+            return SignAndSendSpecialTx(tx, request);
         }
     }
 }
@@ -552,7 +552,7 @@ UniValue protx_register_submit(const JSONRPCRequest& request)
     ptx.vchSig = DecodeBase64(request.params[2].get_str().c_str());
 
     SetTxPayload(tx, ptx);
-    return SignAndSendSpecialTx(tx);
+    return SignAndSendSpecialTx(tx, request);
 }
 
 void protx_update_service_help(CHDWallet *pwallet)
@@ -647,7 +647,7 @@ UniValue protx_update_service(const JSONRPCRequest& request)
     SignSpecialTxPayloadByHash(tx, ptx, keyOperator);
     SetTxPayload(tx, ptx);
 
-    return SignAndSendSpecialTx(tx);
+    return SignAndSendSpecialTx(tx, request);
 }
 
 void protx_update_registrar_help(CHDWallet *pwallet)
@@ -735,7 +735,7 @@ UniValue protx_update_registrar(const JSONRPCRequest& request)
     SignSpecialTxPayloadByHash(tx, ptx, keyOwner);
     SetTxPayload(tx, ptx);
 
-    return SignAndSendSpecialTx(tx);
+    return SignAndSendSpecialTx(tx, request);
 }
 
 void protx_revoke_help(CHDWallet *pwallet)
@@ -820,7 +820,7 @@ UniValue protx_revoke(const JSONRPCRequest& request)
     SignSpecialTxPayloadByHash(tx, ptx, keyOperator);
     SetTxPayload(tx, ptx);
 
-    return SignAndSendSpecialTx(tx);
+    return SignAndSendSpecialTx(tx, request);
 }
 #endif//ENABLE_WALLET
 
