@@ -330,7 +330,7 @@ const std::pair<const char*, CAmount> dmnTestGenesisOutputs[] = {
 	std::make_pair("efca7b9a3707c61aa658c7a2fcd2e302e17f2955", 400000 * COIN), 
 	std::make_pair("45271c3a5758ee59f45d8efcab5cf663fdfa209e", 400000 * COIN), 
 	std::make_pair("a11569f8eb2810fb268d49273ab983e56a40a902", 400000 * COIN), 
-	std::make_pair("62c4255eed9f472c4a07a038df912022cac960e1", 400000 * COIN), //! GSr9cPTscMXre9V9kHJCwtTfK5D4t7Vrh6
+	std::make_pair("f524b02074a30f9426f3b0828495a234e9271b5a", 400000 * COIN), //! GgC7vFactueu6AkMJD9MM7RyDz2JyEtiTD
 	std::make_pair("28cf6c5d8fa0af8e25a7fcea3e57374cfbf5f3b4", 400000 * COIN), //! GMZhvpkTxAiE6A11JgRidsRjeiFCF2MphD
 	std::make_pair("a552b822a109cd9216e77c0225db92038abc5645", 400000 * COIN), //! GYv51DSnyoZDkcP1EWVES92qYbNbGpWiY7
 };
@@ -1105,13 +1105,13 @@ public:
         m_assumed_blockchain_size = 1;
         m_assumed_chain_state_size = 1;
 
-        uint32_t nTime{1611487079};
-        uint32_t nNonce{0};
+        uint32_t nTime{1611487134};
+        uint32_t nNonce{10};
         genesis = CreateGenesisBlockDMNTestNet(nTime, nNonce, 0x2007ffff);
         consensus.hashGenesisBlock = genesis.GetHash();
-		assert(consensus.hashGenesisBlock == uint256S("0x078775439b31470af344ca6c55e0c597f1e81ba918bea42a4d09b2f5e0d50678"));
-        assert(genesis.hashMerkleRoot == uint256S("0x85cc8cecbba357ba7774e5a6856fc35573d0d7adf79fc8db96548fe5d08e9ac9"));
-        assert(genesis.hashWitnessMerkleRoot == uint256S("0x3eee23066b91370f2d938e1f489d6566523510d5c9b7d7db415b0578e9d6745b"));
+		assert(consensus.hashGenesisBlock == uint256S("0x0000000000000000000000000000000000000000000000000000000000000000"));
+        assert(genesis.hashMerkleRoot == uint256S("0xc965035dc56feb6b3be66866c7bc1a97201e91a2a2984acd7938cb98ee889627"));
+        assert(genesis.hashWitnessMerkleRoot == uint256S("0x2bec82f15c8fffa7ac15f067f796bd8b44f86e01fce4863f1adc369ca008f837"));
 
         base58Prefixes[PUBKEY_ADDRESS]     = {0x26}; // G
         base58Prefixes[SCRIPT_ADDRESS]     = {0x61}; // g
