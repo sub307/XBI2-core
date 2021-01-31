@@ -1106,10 +1106,10 @@ public:
         m_assumed_chain_state_size = 1;
 
         uint32_t nTime{1611487134};
-        uint32_t nNonce{10};
+        uint32_t nNonce{0};
         genesis = CreateGenesisBlockDMNTestNet(nTime, nNonce, 0x2007ffff);
         consensus.hashGenesisBlock = genesis.GetHash();
-		assert(consensus.hashGenesisBlock == uint256S("0x0000000000000000000000000000000000000000000000000000000000000000"));
+		assert(consensus.hashGenesisBlock == uint256S("0x03e37da99d61e7e7daa022f4c8e47ca2f3baa32a10cebbe508ab6d53ff2ab77a"));
         assert(genesis.hashMerkleRoot == uint256S("0xc965035dc56feb6b3be66866c7bc1a97201e91a2a2984acd7938cb98ee889627"));
         assert(genesis.hashWitnessMerkleRoot == uint256S("0x2bec82f15c8fffa7ac15f067f796bd8b44f86e01fce4863f1adc369ca008f837"));
 
